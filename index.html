@@ -7,20 +7,32 @@
 <style>
 body {
   font-family: Arial, sans-serif;
-  text-align: center;
-  margin-top: 100px;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, #ffe6f0, #fff);
   overflow-x: hidden;
 }
 
 /* Button */
 .open-btn {
-  padding: 14px 24px;
-  font-size: 18px;
-  background: #ff4d6d;
+  padding: 18px 30px;
+  font-size: 20px;
+  min-width: 220px;
+  background: linear-gradient(135deg, #ff4d6d, #ff8fb3);
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 16px;
   cursor: pointer;
+  box-shadow: 0 18px 35px rgba(255, 77, 109, 0.28);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.open-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 22px 45px rgba(255, 77, 109, 0.35);
 }
 
 /* Modal */
@@ -39,9 +51,9 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 700px;
-  height: 400px;
+  width: 95%;
+  max-width: 820px;
+  height: 460px;
   border-radius: 20px;
   overflow: hidden;
   background: url('pics.png') center/cover no-repeat;
@@ -95,11 +107,39 @@ body {
   position: fixed;
   font-size: 22px;
   animation: floatUp 4s linear forwards;
+  z-index: 7;
 }
 
 @keyframes floatUp {
   from { transform: translateY(0); opacity: 1; }
   to { transform: translateY(-700px); opacity: 0; }
+}
+
+.floating-letter {
+  position: fixed;
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffd7e7;
+  pointer-events: none;
+  opacity: 0;
+  animation: floatLetter 4s ease-out forwards;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.95);
+  z-index: 999;
+}
+
+@keyframes floatLetter {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.9);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-220px) scale(0.9);
+  }
 }
 
 /* Confetti */
@@ -121,7 +161,7 @@ body {
 
 <body>
 
-<button class="open-btn" onclick="openModal()">Click me please</button>
+<button class="open-btn" onclick="openModal()">Click Me Please HUHU</button>
 
 <div id="myModal" class="modal">
   <div class="modal-content">
@@ -157,10 +197,16 @@ function openModal() {
   typeWriter();
 
   // 🎉 Confetti
-  createConfetti();
+  createConfetti(180);
+  createConfetti(180);
 
   // 💖 Hearts
-  createHearts();
+  createHearts(55);
+  createHearts(55);
+
+  // ✨ Floating letters message
+  createFloatingLetters();
+  createFloatingLetters();
 }
 
 function closeModal() {
@@ -177,8 +223,8 @@ function typeWriter() {
 }
 
 // Confetti
-function createConfetti() {
-  for (let i = 0; i < 100; i++) {
+function createConfetti(amount = 100) {
+  for (let i = 0; i < amount; i++) {
     let c = document.createElement("div");
     c.className = "confetti";
     c.style.left = Math.random() * 100 + "vw";
@@ -195,8 +241,8 @@ function randomColor() {
 }
 
 // Hearts
-function createHearts() {
-  for (let i = 0; i < 30; i++) {
+function createHearts(amount = 30) {
+  for (let i = 0; i < amount; i++) {
     let h = document.createElement("div");
     h.className = "heart";
     h.innerHTML = "💖";
@@ -206,6 +252,25 @@ function createHearts() {
     document.body.appendChild(h);
     setTimeout(() => h.remove(), 4000);
   }
+}
+
+function createFloatingLetters() {
+  const message = "I love you so much. IM SO PROUD OF YOU";
+  message.split("").forEach((letter, index) => {
+    setTimeout(() => {
+      if (letter === " ") return;
+      const span = document.createElement("div");
+      span.className = "floating-letter";
+      span.textContent = letter;
+      span.style.left = 5 + Math.random() * 90 + "vw";
+      span.style.top = 6 + Math.random() * 10 + "vh";
+      span.style.fontSize = 24 + Math.random() * 10 + "px";
+      span.style.animationDuration = (Math.random() * 1.5 + 3) + "s";
+      span.style.color = ["#ffffff", "#ffe6f2", "#ffb3d2", "#ff81b1", "#ff5c9d"][Math.floor(Math.random() * 5)];
+      document.body.appendChild(span);
+      setTimeout(() => span.remove(), 4500);
+    }, index * 80);
+  });
 }
 
 // Close outside

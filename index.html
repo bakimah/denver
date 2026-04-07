@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Goodluck Love</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin-top: 100px;
+  overflow-x: hidden;
+}
+
+/* Button */
+.open-btn {
+  padding: 14px 24px;
+  font-size: 18px;
+  background: #ff4d6d;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 5;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+}
+
+/* 🔥 Bigger Responsive Modal */
+.modal-content {
+  position: relative;
+  margin: 5% auto;
+  width: 80%;
+  max-width: 600px;
+  height: 350px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: url('pics.png') center/cover no-repeat;
+}
+
+/* Overlay */
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+/* Text */
+.text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+}
+
+.text h2 {
+  font-size: 30px;
+}
+
+.text p {
+  font-size: 18px;
+}
+
+#message {
+  border-right: 2px solid white;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Close */
+.close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  color: white;
+  font-size: 26px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Hearts */
+.heart {
+  position: fixed;
+  font-size: 22px;
+  animation: floatUp 4s linear forwards;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-700px); opacity: 0; }
+}
+
+/* Confetti */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<button class="open-btn" onclick="openModal()">Click me please</button>
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    
+    <span class="close" onclick="closeModal()">&times;</span>
+    
+    <div class="overlay"></div>
+
+    <div class="text">
+      <h2>GOODLUCK LOVE ❤️</h2>
+      <p id="message"></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- 🔊 Sound -->
+<audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+
+<script>
+const text = "IM SO PROUD OF YOUUUUU!!! MWAPS 💖✨";
+let i = 0;
+
+function openModal() {
+  document.getElementById("myModal").style.display = "block";
+
+  // 🔊 Sound
+  document.getElementById("clickSound").play();
+
+  // ⏳ Typing
+  i = 0;
+  document.getElementById("message").innerHTML = "";
+  typeWriter();
+
+  // 🎉 Confetti
+  createConfetti();
+
+  // 💖 Hearts
+  createHearts();
+}
+
+function closeModal() {
+  document.getElementById("myModal").style.display = "none";
+}
+
+// Typing effect
+function typeWriter() {
+  if (i < text.length) {
+    document.getElementById("message").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 35);
+  }
+}
+
+// Confetti
+function createConfetti() {
+  for (let i = 0; i < 100; i++) {
+    let c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.backgroundColor = randomColor();
+    c.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 5000);
+  }
+}
+
+function randomColor() {
+  const colors = ["red","blue","yellow","green","pink","purple","orange"];
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+// Hearts
+function createHearts() {
+  for (let i = 0; i < 30; i++) {
+    let h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = "💖";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.bottom = "0px";
+    h.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 4000);
+  }
+}
+
+// Close outside
+window.onclick = function(e) {
+  let modal = document.getElementById("myModal");
+  if (e.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+</body>
+</html>
